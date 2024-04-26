@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/java,django,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,django,node
 
+package.json
+package-lock.json
+
 ### Django ###
 *.log
 *.pot
