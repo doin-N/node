@@ -2,19 +2,17 @@ const express = require('express');
 // express 모듈 불러오기
 
 const PORT = 4000;
+const path = require('path');
 
-const Users = [
-    {
-        id: 0,
-        name: 'Jack'
-    },
-    {
-        id: 1,
-        name: 'Jennifer'
-    }
-]
+
+const usersRouter = require('./routes/user.router')
+const postsRouter = require('./routes/posts.router')
 
 const app = express() //새로운 express어플 생성
+app.set('view enging', 'hbs');
+app.set('views', path.join(__dirname, 'views'));
+
+app.use('/static', express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
 
@@ -23,37 +21,16 @@ app.use((req, res, next) => {
     console.log(`start: ${req.method} ${req.url}`);
     next();
     const diffTime = Date.now() - start;//미들웨어 리스폰스거치는 시간 확인하는법 
-    console.log(`end: ${req.method} ${req.url} ${diffTime}ms`)
+    console.log(`end: ${req.method} ${req.baseUrl} ${req.url} ${diffTime}ms`)
+})
+app.get('/', (req, res) => {
+    res.render('index', {
+        imageTitle: "It is a forest"
+    })
 })
 
-app.get('/Users', (req, res) => { //라우트 핸들러 뭔지 확인하기 이부분
-    res.send(Users);
-})
-
-app.get('/', (req, res) => { 
-    res.send('Hello, world!');
-})
-
-app.post('/users', (req, res) => {
-    console.log('req.body.name:' + req.body.name);
-    const newUser = {
-        nsme: req.body.name,
-        id: Users.length
-    }
-    Users.push(newUser);
-    res.json(newUser)
-    
-})
-
-app.get('/users/:userId', (req, res) => {
-    const userId = Number(req.params.userId);
-    const user = Users[userId];
-    if(user){
-        res.jsonp(user);
-    }else{
-        res.sendStatus(404);
-    }
-})
+app.use('/users', usersRouter);
+app.use('/posts', postsRouter);
 
 app.listen(PORT, () => {
     console.log(`Running on port ${PORT}`)
