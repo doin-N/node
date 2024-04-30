@@ -5,7 +5,7 @@ const PORT = 4000;
 const path = require('path');
 
 
-const usersRouter = require('./routes/user.router')
+const userRouter = require('./routes/user.router')
 const postsRouter = require('./routes/posts.router')
 
 const app = express() //새로운 express어플 생성
@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
     })
 })
 
-app.use('/users', usersRouter);
+app.use('/users', userRouter);
 app.use('/posts', postsRouter);
 
 app.listen(PORT, () => {
