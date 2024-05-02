@@ -9,7 +9,7 @@ const userRouter = require('./routes/user.router')
 const postsRouter = require('./routes/posts.router')
 
 const app = express() //새로운 express어플 생성
-app.set('view enging', 'hbs');
+app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use('/static', express.static(path.join(__dirname, 'public')));
